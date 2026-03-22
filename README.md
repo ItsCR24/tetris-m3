@@ -15,8 +15,7 @@ Just for fun :)
 
 Material You | Nothing
 --- | ---
-![Material You Light](screenshots/material_you_light.png) ![Nothing OS Light](screenshots/nothing_os_light.png) | ![Material You Dark](screenshots/material_you_dark.png) ![Nothing OS Dark](screenshots/nothing_os_dark.png)
-#
+![Material You (Dark)](https://github.com/user-attachments/assets/b95e72e9-515e-45ff-9e6b-9e7821b3ee16) ![Material You (Light)](https://github.com/user-attachments/assets/7272711a-61e9-40f6-a9c9-bd71de46eb11) | ![Nothing (Dark)](https://github.com/user-attachments/assets/1c3299cc-967f-49ea-979f-d33694233fee) ![Nothing (Light)](https://github.com/user-attachments/assets/d37475b4-a5b6-4cff-825c-92267be58c5c)
 
 ## 📥 Download
 You can download the latest release of Tetris M3 from the [releases page](https://github.com/ItsCR24/tetris-m3/releases).
