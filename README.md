@@ -1,16 +1,22 @@
-# tetrism3
+# Tetris M3
 
-A new Flutter project.
+Tetris, kept simple.
 
-## Getting Started
+A Tetris game inspired by Material You and Nothing OS design principles, built with Flutter.  
+Just for fun :)
 
-This project is a starting point for a Flutter application.
+## 🎮 Features
+- Simple UI: No bloated menus or settings, just pure Tetris gameplay
+- Material 3 design with dynamic color theming based on your wallpaper
+- Toggle the Nothing OS theme for a sleek, minimalistic look
+- Haptic feedback for a more responsive experience
 
-A few resources to get you started if this is your first Flutter project:
+## 📸 Screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Material You | Nothing
+--- | ---
+![Material You Light](screenshots/material_you_light.png) ![Nothing OS Light](screenshots/nothing_os_light.png) | ![Material You Dark](screenshots/material_you_dark.png) ![Nothing OS Dark](screenshots/nothing_os_dark.png)
+#
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📥 Download
+You can download the latest release of Tetris M3 from the [releases page](https://github.com/ItsCR24/tetris-m3/releases).
