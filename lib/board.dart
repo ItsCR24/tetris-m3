@@ -30,6 +30,7 @@ class _GameBoardState extends State<GameBoard> {
   int score = 0;
   bool gameOver = false;
   Duration frameRate = const Duration(milliseconds: 400);
+  bool paused = false;
   Timer? _holdTimer;
 
   @override
@@ -49,6 +50,7 @@ class _GameBoardState extends State<GameBoard> {
     Timer.periodic(
       frameRate,
       (timer) {
+        if (paused) return;
         setState(() {
           clearLines();
           checkLanded();
@@ -145,6 +147,7 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void moveLeft() {
+    if (paused) return;
     if (!collision(Direction.left)) {
       setState(() {
         currentTetromino.movePiece(Direction.left);
@@ -155,6 +158,7 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void moveRight() {
+    if (paused) return;
     if (!collision(Direction.right)) {
       setState(() {
         currentTetromino.movePiece(Direction.right);
@@ -165,6 +169,7 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void rotate() {
+    if (paused) return;
     HapticFeedback.lightImpact();
     setState(() {
       currentTetromino.rotatePiece();
@@ -172,6 +177,7 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void drop() {
+    if (paused) return;
     if (!collision(Direction.down)) {
       do {
         currentTetromino.movePiece(Direction.down);
@@ -184,6 +190,7 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void clearLines() {
+    if (paused) return;
     for (int row = colLenght - 1; row >= 0; row--) {
       bool rowFull = true;
 
@@ -217,6 +224,7 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void _startHoldingLeft() {
+    if (paused) return;
     _stopHolding();
     _holdTimer = Timer(const Duration(milliseconds: 80), () {
       moveLeft();
@@ -227,6 +235,7 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void _startHoldingRight() {
+    if (paused) return;
     _stopHolding();
     _holdTimer = Timer(const Duration(milliseconds: 80), () {
       moveRight();
@@ -266,12 +275,23 @@ class _GameBoardState extends State<GameBoard> {
                     ),
                   ),
                   Align(
-                    alignment: Alignment.centerRight,
+                    alignment: Alignment.centerLeft,
                     child: IconButton(
                       onPressed: () {
                         nothingOScolorscheme.value = !nothingOScolorscheme.value;
                       },
                       icon: const Icon(Icons.brush_rounded),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          paused = !paused;
+                        });
+                      },
+                      icon: paused ? Icon(Icons.play_arrow_rounded) : Icon(Icons.pause_rounded),
                     ),
                   )
                 ]
