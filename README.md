@@ -5,6 +5,8 @@ Tetris, kept simple.
 A Tetris game inspired by Material You and Nothing OS design principles, built with Flutter.  
 Just for fun :)
 
+[<img height="80" alt="Get it on GitHub" src="./.github/assets/get-it-on-github.png" />](https://github.com/ItsCR24/tetris-m3/releases)
+
 ## 🎮 Features
 - Simple UI: No bloated menus or settings, just pure Tetris gameplay
 - Material 3 design with dynamic color theming based on your wallpaper
