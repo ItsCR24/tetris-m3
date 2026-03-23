@@ -30,6 +30,7 @@ class _GameBoardState extends State<GameBoard> {
   int score = 0;
   bool gameOver = false;
   Duration frameRate = const Duration(milliseconds: 400);
+  Timer? _holdTimer;
 
   @override
   void initState() {
@@ -215,6 +216,37 @@ class _GameBoardState extends State<GameBoard> {
     return false;
   }
 
+  void _startHoldingLeft() {
+    _stopHolding();
+    _holdTimer = Timer(const Duration(milliseconds: 80), () {
+      moveLeft();
+      _holdTimer = Timer.periodic(const Duration(milliseconds: 80), (_) {
+        moveLeft();
+      });
+    });
+  }
+
+  void _startHoldingRight() {
+    _stopHolding();
+    _holdTimer = Timer(const Duration(milliseconds: 80), () {
+      moveRight();
+      _holdTimer = Timer.periodic(const Duration(milliseconds: 80), (_) {
+        moveRight();
+      });
+    });
+  }
+
+  void _stopHolding() {
+    _holdTimer?.cancel();
+    _holdTimer = null;
+  }
+
+  @override
+  void dispose() {
+    _stopHolding();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -306,10 +338,36 @@ class _GameBoardState extends State<GameBoard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  FloatingActionButton(elevation: 0, onPressed: moveLeft, child: Icon(Icons.keyboard_arrow_left_rounded)),
-                  FloatingActionButton(elevation: 0, onPressed: moveRight, child: Icon(Icons.keyboard_arrow_right_rounded)),
-                  FloatingActionButton(elevation: 0, onPressed: drop, child: Icon(Icons.keyboard_arrow_down_rounded)),
-                  FloatingActionButton(elevation: 0, onPressed: rotate, child: Icon(Icons.rotate_left_rounded)),
+                  GestureDetector(
+                    onTapDown: (_) => _startHoldingLeft(),
+                    onTapUp: (_) => _stopHolding(),
+                    onTapCancel: _stopHolding,
+                    child: FloatingActionButton(
+                      elevation: 0,
+                      onPressed: moveLeft,
+                      child: Icon(Icons.keyboard_arrow_left_rounded),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTapDown: (_) => _startHoldingRight(),
+                    onTapUp: (_) => _stopHolding(),
+                    onTapCancel: _stopHolding,
+                    child: FloatingActionButton(
+                      elevation: 0,
+                      onPressed: moveRight,
+                      child: Icon(Icons.keyboard_arrow_right_rounded),
+                    ),
+                  ),
+                  FloatingActionButton(
+                    elevation: 0,
+                    onPressed: drop,
+                    child: Icon(Icons.keyboard_arrow_down_rounded),
+                  ),
+                  FloatingActionButton(
+                    elevation: 0,
+                    onPressed: rotate,
+                    child: Icon(Icons.rotate_left_rounded),
+                  ),
                 ],
               ),
             ),
