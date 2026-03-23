@@ -270,7 +270,7 @@ class _GameBoardState extends State<GameBoard> {
                 children: [
                   Center(
                     child: Text(
-                      score.toString(),
+                      paused ? "Paused" : score.toString(),
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
                   ),
