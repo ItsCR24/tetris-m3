@@ -284,8 +284,9 @@ class _GameBoardState extends State<GameBoard> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: IconButton(
-                      onPressed: () {
+                      onPressed: () async {
                         nothingOScolorscheme.value = !nothingOScolorscheme.value;
+                        await savePrefs();
                       },
                       icon: const Icon(Icons.brush_rounded),
                     ),

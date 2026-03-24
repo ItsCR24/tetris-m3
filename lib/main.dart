@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'board.dart';
 
 void main() {
@@ -7,6 +9,16 @@ void main() {
 }
 
 final ValueNotifier<bool> nothingOScolorscheme = ValueNotifier(false);
+
+Future<void> loadPrefs() async {
+  final prefs = await SharedPreferences.getInstance();
+  nothingOScolorscheme.value = prefs.getBool('NOS_theme') ?? false;
+}
+
+Future<void> savePrefs() async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setBool('NOS_theme', nothingOScolorscheme.value);
+}
 
 ColorScheme _applyRoleOverrides(ColorScheme scheme, {required bool isDark}) {
   return scheme.copyWith(
