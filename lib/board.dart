@@ -37,7 +37,7 @@ class _GameBoardState extends State<GameBoard> {
   @override
   void initState() {
     super.initState();
-
+    loadPrefs();
     startGame();
   }
 
