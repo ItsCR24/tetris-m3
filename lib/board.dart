@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tetrism3/main.dart';
 import 'tetromino.dart';
@@ -29,6 +30,7 @@ class _GameBoardState extends State<GameBoard> {
   Tetromino currentTetromino = Tetromino(type: Shape.Z);
 
   int score = 0;
+  int highscore = 0;
   bool gameOver = false;
   Duration frameRate = const Duration(milliseconds: 400);
   bool paused = false;
@@ -39,6 +41,18 @@ class _GameBoardState extends State<GameBoard> {
     super.initState();
     loadPrefs();
     startGame();
+  }
+
+  Future<void> savePrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('NOS_theme', nothingOScolorscheme.value);
+    await prefs.setInt('highscore', highscore);
+  }
+
+    Future<void> loadPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    nothingOScolorscheme.value = prefs.getBool('NOS_theme') ?? false;
+    highscore = prefs.getInt('highscore') ?? 0;
   }
 
   void startGame() {
@@ -60,7 +74,16 @@ class _GameBoardState extends State<GameBoard> {
 
             showDialog(context: context, barrierDismissible: false, builder: (context) => AlertDialog(
               title: Text("Game Over"),
-              content: Text("Score: $score"),
+              titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 4,
+                children: [
+                  Text("Score: $score"),
+                  Text("Highscore: $highscore")
+                ],
+              ),
               actions: [
                 TextButton(
                   onPressed: () {
@@ -130,8 +153,15 @@ class _GameBoardState extends State<GameBoard> {
           board[row][col] = currentTetromino.type;
         }
       }
+      
       createPiece();
       score += 2;
+
+      if (score > highscore) {
+        highscore = score;
+        savePrefs();
+      }
+
       return true;
     }
     return false;
