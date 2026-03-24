@@ -25,7 +25,7 @@ class GameBoard extends StatefulWidget {
   State<GameBoard> createState() => _GameBoardState();
 }
 
-class _GameBoardState extends State<GameBoard> {
+class _GameBoardState extends State<GameBoard> with WidgetsBindingObserver {
 
   Tetromino currentTetromino = Tetromino(type: Shape.Z);
 
@@ -39,8 +39,25 @@ class _GameBoardState extends State<GameBoard> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     loadPrefs();
     startGame();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.inactive) {
+      setState(() {
+        paused = true;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _stopHolding();
+    super.dispose();
   }
 
   Future<void> savePrefs() async {
@@ -285,12 +302,6 @@ class _GameBoardState extends State<GameBoard> {
   void _stopHolding() {
     _holdTimer?.cancel();
     _holdTimer = null;
-  }
-
-  @override
-  void dispose() {
-    _stopHolding();
-    super.dispose();
   }
 
   @override
