@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:tetrism3/main.dart';
 import 'tetromino.dart';
 import 'pixel.dart';
@@ -191,6 +192,7 @@ class _GameBoardState extends State<GameBoard> {
 
   void clearLines() {
     if (paused) return;
+
     for (int row = colLenght - 1; row >= 0; row--) {
       bool rowFull = true;
 
@@ -203,13 +205,18 @@ class _GameBoardState extends State<GameBoard> {
 
       if (rowFull) {
         for (int r = row; r > 0; r--) {
-          board[r] = List.from(board[r-1]);
+          board[r] = List.from(board[r - 1]);
         }
 
-        board[0] = List.generate(row, (index) => null);
+        board[0] = List.filled(rowLenght, null, growable: false);
 
         score += 100;
-        frameRate = Duration(milliseconds: frameRate.inMilliseconds-20);
+        frameRate = Duration(
+          milliseconds: max(80, frameRate.inMilliseconds - 20),
+        );
+
+        // check same row index again after shifting
+        row++;
       }
     }
   }
